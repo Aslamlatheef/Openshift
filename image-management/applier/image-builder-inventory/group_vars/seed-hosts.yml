@@ -1,0 +1,18 @@
+openshift_cluster_content:
+- object: Patch ImageStreams to enable automatic updates
+  content:
+  - name: OpenJDK
+    file: "{{ inventory_dir }}/../manifests/openjdk18-openshift.yml"
+    params: "{{ inventory_dir }}/../patches/openjdk18-openshift.yml"
+    action: patch
+    namespace: openshift
+  - name: JBoss EAP
+    file: "{{ inventory_dir }}/../manifests/jboss-eap70-openshift.yml"
+    params: "{{ inventory_dir }}/../patches/jboss-eap70-openshift.yml"
+    action: patch
+    namespace: openshift
+- object: Set up Image Builds
+  content:
+  - name: Image buildConfigs
+    template: "{{ inventory_dir }}/../templates/docker-build-git.yml"
+    params: "{{ inventory_dir }}/../params/image-builds/"
